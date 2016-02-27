@@ -55,7 +55,33 @@ public class LeapImageRetriever : MonoBehaviour {
     }
   }
 
-  public class LeapTextureData {
+    public LeapProvider Provider
+    {
+        get
+        {
+            return provider;
+        }
+
+        set
+        {
+            provider = value;
+        }
+    }
+
+    public int MissedImages
+    {
+        get
+        {
+            return _missedImages;
+        }
+
+        set
+        {
+            _missedImages = value;
+        }
+    }
+
+    public class LeapTextureData {
     private Texture2D _combinedTexture = null;
     private byte[] _intermediateArray = null;
 
@@ -291,7 +317,7 @@ public class LeapImageRetriever : MonoBehaviour {
   }
 
   void Start() {
-    if (provider == null) {
+    if (Provider == null) {
       Debug.LogWarning("Cannot use LeapImageRetriever if there is no LeapProvider!");
       enabled = false;
       return;
@@ -302,11 +328,11 @@ public class LeapImageRetriever : MonoBehaviour {
   }
 
   void OnEnable() {
-    provider.GetLeapController().DistortionChange += onDistortionChange;
+    Provider.GetLeapController().DistortionChange += onDistortionChange;
   }
 
   void OnDisable() {
-    provider.GetLeapController().DistortionChange -= onDistortionChange;
+    Provider.GetLeapController().DistortionChange -= onDistortionChange;
 
     if (_instance == this) {
       _instance = null;
@@ -321,7 +347,7 @@ public class LeapImageRetriever : MonoBehaviour {
 
   
   void OnPreRender() {
-    Controller controller = provider.GetLeapController();
+    Controller controller = Provider.GetLeapController();
     long start = controller.Now();
     if (!_requestedImage.IsComplete) _lateImages++;
     while (!_requestedImage.IsComplete) {
@@ -350,8 +376,8 @@ public class LeapImageRetriever : MonoBehaviour {
       _lastTime = _startTime;
     }
     _requestedImages++;
-    Frame imageFrame = provider.CurrentFrame;
-    Controller controller = provider.GetLeapController();
+    Frame imageFrame = Provider.CurrentFrame;
+    Controller controller = Provider.GetLeapController();
 
     _requestedImage = controller.RequestImages(imageFrame.Id, Image.ImageType.DEFAULT);
   }

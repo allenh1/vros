@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class SuperGrab : MonoBehaviour {
     public bool held;
 
     public bool icon;
-    public float hightTresh = 0;
+    public float hightThresh = 0;
 
-    public float trashTresh = float.NegativeInfinity;
+    public float trashThresh = float.NegativeInfinity;
 
     Vector3 startPos;
     public void Grab()
@@ -21,7 +20,7 @@ public class SuperGrab : MonoBehaviour {
     public void Drop()
     {
         held = false;
-        if (transform.position.y > hightTresh && spawnMe)
+        if (transform.position.y > hightThresh && spawnMe)
         {
             Instantiate(spawnMe, transform.position, transform.rotation);
         }
@@ -33,16 +32,12 @@ public class SuperGrab : MonoBehaviour {
             transform.forward *= -1;
         }
 
-        if (transform.position.y < trashTresh)
+        if (transform.position.y < trashThresh)
             Destroy(gameObject);
     }
 	// Use this for initialization
-	void Start () {
-	
-	}
+	void Start () { }
 	
 	// Update is called once per frame
-	void Update () {
-	
-	}
+	void Update () { }
 }

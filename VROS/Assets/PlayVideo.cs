@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class PlayVideo : MonoBehaviour {
 	// Use this for initialization
@@ -14,7 +13,5 @@ public class PlayVideo : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	
-	}
+	void Update () { }
 }

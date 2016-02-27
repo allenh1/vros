@@ -39,7 +39,59 @@ public class MinimalHand : IHandModel {
     }
   }
 
-  public override void SetLeapHand(Hand hand) {
+    public Mesh PalmMesh
+    {
+        get
+        {
+            return _palmMesh;
+        }
+
+        set
+        {
+            _palmMesh = value;
+        }
+    }
+
+    public Material PalmMat
+    {
+        get
+        {
+            return _palmMat;
+        }
+
+        set
+        {
+            _palmMat = value;
+        }
+    }
+
+    public Mesh JointMesh
+    {
+        get
+        {
+            return _jointMesh;
+        }
+
+        set
+        {
+            _jointMesh = value;
+        }
+    }
+
+    public Material JointMat
+    {
+        get
+        {
+            return _jointMat;
+        }
+
+        set
+        {
+            _jointMat = value;
+        }
+    }
+
+    public override void SetLeapHand(Hand hand) {
     _hand = hand;
   }
 
@@ -50,10 +102,10 @@ public class MinimalHand : IHandModel {
   public override void InitHand() {
     _joints = new Transform[5 * 4];
     for (int i = 0; i < 20; i++) {
-      _joints[i] = createRenderer("Joint", _jointMesh, _jointScale, _jointMat);
+      _joints[i] = createRenderer("Joint", JointMesh, _jointScale, JointMat);
     }
 
-    _palm = createRenderer("Palm", _palmMesh, _palmScale, _palmMat);
+    _palm = createRenderer("Palm", PalmMesh, _palmScale, PalmMat);
   }
 
   public override void UpdateHand() {

@@ -131,7 +131,46 @@ public class LeapVRTemporalWarping : MonoBehaviour {
     }
   }
 
-  private LeapDeviceInfo deviceInfo;
+    public LeapHandController LeapHandController
+    {
+        get
+        {
+            return leapHandController;
+        }
+
+        set
+        {
+            leapHandController = value;
+        }
+    }
+
+    public LeapProvider Provider
+    {
+        get
+        {
+            return provider;
+        }
+
+        set
+        {
+            provider = value;
+        }
+    }
+
+    public bool AllowManualTimeAlignment
+    {
+        get
+        {
+            return allowManualTimeAlignment;
+        }
+
+        set
+        {
+            allowManualTimeAlignment = value;
+        }
+    }
+
+    private LeapDeviceInfo deviceInfo;
 
   private Transform _trackingAnchor;
   private Matrix4x4 _projectionMatrix;
@@ -170,7 +209,7 @@ public class LeapVRTemporalWarping : MonoBehaviour {
   }
 
   public bool TryGetWarpedTransform(WarpedAnchor anchor, out Vector3 rewoundPosition, out Quaternion rewoundRotation) {
-    long timestamp = provider.CurrentFrame.Timestamp;
+    long timestamp = Provider.CurrentFrame.Timestamp;
     if (TryGetWarpedTransform(anchor, out rewoundPosition, out rewoundRotation, timestamp)) {
       return true;
     }
@@ -181,7 +220,7 @@ public class LeapVRTemporalWarping : MonoBehaviour {
   }
 
   protected void Start() {
-    if (leapHandController == null) {
+    if (LeapHandController == null) {
       Debug.LogWarning("Camera alignment requires an active LeapHandController -> enabled = false");
       enabled = false;
       return;
@@ -190,7 +229,7 @@ public class LeapVRTemporalWarping : MonoBehaviour {
     //Get a callback right as rendering begins for this frame so we can update the history and warping.
     LeapVRCameraControl.OnValidCameraParams += onValidCameraParams;
 
-    deviceInfo = provider.GetDeviceInfo();
+    deviceInfo = Provider.GetDeviceInfo();
     if (deviceInfo.type == LeapDeviceType.Invalid) {
       Debug.LogWarning("Invalid Leap Device -> enabled = false");
       enabled = false;
@@ -209,7 +248,7 @@ public class LeapVRTemporalWarping : MonoBehaviour {
     }
 
     // Manual Time Alignment
-    if (allowManualTimeAlignment) {
+    if (AllowManualTimeAlignment) {
       if (unlockHold == KeyCode.None || Input.GetKey(unlockHold)) {
         if (Input.GetKeyDown(moreRewind)) {
           warpingAdjustment += 1;
@@ -237,7 +276,7 @@ public class LeapVRTemporalWarping : MonoBehaviour {
   }
 
   private void updateHistory() {
-    long leapNow = provider.GetLeapController().Now();
+    long leapNow = Provider.GetLeapController().Now();
     _history.Add(new TransformData() {
       leapTime = leapNow,
       localPosition = InputTracking.GetLocalPosition(VRNode.CenterEye),
@@ -260,7 +299,7 @@ public class LeapVRTemporalWarping : MonoBehaviour {
     Quaternion currCenterRot = _trackingAnchor.rotation * InputTracking.GetLocalRotation(VRNode.CenterEye);
 
     //Get the transform at the time when the latest image was captured
-    long rewindTime = provider.CurrentFrame.Timestamp;
+    long rewindTime = Provider.CurrentFrame.Timestamp;
 
     TransformData past = transformAtTime(rewindTime);
     Vector3 pastCenterPos = _trackingAnchor.TransformPoint(past.localPosition);

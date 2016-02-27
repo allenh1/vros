@@ -8,7 +8,21 @@ namespace Leap {
     MonoBehaviour {
     public Frame CurrentFrame { get; private set; }
     public Image CurrentImage { get; private set; }
-    private Transform providerSpace;
+
+        public Transform ProviderSpace
+        {
+            get
+            {
+                return providerSpace;
+            }
+
+            set
+            {
+                providerSpace = value;
+            }
+        }
+
+        private Transform providerSpace;
     private Matrix leapMat;
 
     protected Controller leap_controller_;

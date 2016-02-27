@@ -13,7 +13,20 @@ public class TemporalWarpingStatus : MonoBehaviour {
   [SerializeField]
   LeapProvider Provider;
 
-  void Start () {
+    public LeapProvider Provider1
+    {
+        get
+        {
+            return Provider;
+        }
+
+        set
+        {
+            Provider = value;
+        }
+    }
+
+    void Start () {
     textField = GetComponent<Text> ();
     if (textField == null) {
       gameObject.SetActive(false);

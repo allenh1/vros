@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using Leap;
-using System;
 
 public class CapsuleHand : IHandModel {
 
@@ -47,11 +45,37 @@ public class CapsuleHand : IHandModel {
   private Chirality handedness;
   public override Chirality Handedness {
     get {
-      return handedness;
+      return Handedness1;
     }
   }
 
-  public override Hand GetLeapHand() {
+    public Material Material
+    {
+        get
+        {
+            return _material;
+        }
+
+        set
+        {
+            _material = value;
+        }
+    }
+
+    public Chirality Handedness1
+    {
+        get
+        {
+            return handedness;
+        }
+
+        set
+        {
+            handedness = value;
+        }
+    }
+
+    public override Hand GetLeapHand() {
     return hand_;
   }
 
@@ -67,8 +91,8 @@ public class CapsuleHand : IHandModel {
   }
 
   public override void InitHand() {
-    if (_material != null) {
-      jointMat = new Material(_material);
+    if (Material != null) {
+      jointMat = new Material(Material);
       jointMat.hideFlags = HideFlags.DontSaveInEditor;
       jointMat.color = _colorList[_colorIndex];
       _colorIndex = (_colorIndex + 1) % _colorList.Length;
@@ -267,7 +291,7 @@ public class CapsuleHand : IHandModel {
     capsule.name = name;
     capsule.transform.parent = transform;
     capsule.transform.localScale = Vector3.one * CYLINDER_RADIUS * 2;
-    capsule.GetComponent<Renderer>().sharedMaterial = _material;
+    capsule.GetComponent<Renderer>().sharedMaterial = Material;
 
     _capsuleTransforms.Add(capsule.transform);
     _sphereATransforms.Add(jointA);
