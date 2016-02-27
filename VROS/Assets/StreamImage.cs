@@ -58,13 +58,31 @@ public class StreamImage : MonoBehaviour
         {
             var w = new WWW(url + "scroll?dir=down");
         }
+
         if (Input.GetKeyDown(KeyCode.PageUp))
         {
             var w = new WWW(url + "scroll?dir=up");
         }
+
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            var w = new WWW(url + "scroll?dir=right");
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            var w = new WWW(url + "scroll?dir=left");
+        }
+
+        if (Input.GetKeyDown(KeyCode.Home))
+        {
+            var w = new WWW(url + "goto?url=https://google.com");
+        }
+
+        /**
+         * @todo Add the ability for users to request a url.
+         */
     }
 
     public Texture2D texture;
-
-    
 }

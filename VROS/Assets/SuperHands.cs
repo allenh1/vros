@@ -12,8 +12,8 @@ public class SuperHands : MonoBehaviour
 
     }
 
-    public float grabTresh = 0.95f;
-    public float letgoTresh = 0.05f;
+    public float grabTresh = 0.98f;
+    public float letgoTresh = 0.02f;
     public SuperGrab holding;
     // Update is called once per frame
     void Update()
